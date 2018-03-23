@@ -1,0 +1,26 @@
+{
+  "name": "hku-student-loan",
+  "version": "0.0.1",
+  "description": "a hyperledger composer project about student loan application process in HKU",
+  "scripts": {
+    "clean": "rm -Rf ./node_modules ./dist ./composer-logs ./out",
+    "prepublish": "mkdirp ./dist && composer archive create  --sourceType dir --sourceName . -a ./dist/hku-student-loan.bna",
+    "pretest": "npm run lint",
+    "lint": "eslint .",
+    "test": "mocha --recursive"
+  },
+  "author": "Niko Feng",
+  "email": "nikofeng@hku.hk",
+  "license": "Apache-2.0",
+  "devDependencies": {
+    "composer-admin": "latest",
+    "composer-client": "latest",
+    "composer-common": "latest",
+    "composer-connector-embedded": "latest",
+    "chai": "latest",
+    "eslint": "latest",
+    "istanbul": "latest",
+    "mkdirp": "latest",
+    "mocha": "latest"
+  }
+}

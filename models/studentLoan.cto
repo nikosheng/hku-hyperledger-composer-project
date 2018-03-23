@@ -1,0 +1,88 @@
+/**
+ * HKU Student Loan Definitions
+ */
+
+namespace org.hku.niko.loan
+
+enum LoanStatus {
+  o ACTIVATED
+  o INACTIVATED
+}
+
+enum ApplicationStatus {
+  o CREATED
+  o PROFESSOR_AUDIT
+  o SUCCESSED
+  o FAILED
+}
+
+concept Department {
+  o String deptId
+  o String deptName
+}
+
+abstract participant User identified by uid {
+  o String uid
+  o String name
+  o String email
+  o Department dept
+}
+
+participant Student extends User {
+  --> Loan loan optional
+}
+
+participant Professor extends User {
+}
+
+participant Bank identified by bankId {
+  o String bankId
+  o String bankName
+  o Integer expectedLoanValue
+}
+
+asset Application identified by applicationId {
+  o String applicationId
+  o Integer loanValue
+  o ApplicationStatus applicationStatus
+  --> Student student
+  --> Professor professor
+  --> Bank bank optional
+}
+
+asset Loan identified by loanId {
+  o String loanId
+  o Integer value
+  o LoanStatus loanStatus
+  --> Application application
+  --> Bank bank
+}
+
+transaction ApplyLoan {
+  o Integer loanValue
+  --> Student student
+  --> Professor professor
+}
+
+event ApplyLoanEvent {
+  o String message
+  --> Student student
+}
+
+transaction UpdateLoanStatus {
+  --> Application application
+  --> Loan loan optional
+  --> Student student optional
+  --> Professor professor optional
+  --> Bank bank optional
+}
+
+event UpdateLoanStatusEvent {
+  o String message
+  o LoanStatus loanStatus
+  --> Loan loan optional
+}
+
+// INITILIZATION DEFINITIONS
+transaction SetupDemo {
+}
